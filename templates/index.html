@@ -378,27 +378,6 @@
                 L.layerGroup().addTo(map);
 
             // Dibuixar trajectòria
-            // Trajectòria fina
-            L.polyline(
-                coordinates,
-                {            
-                    color: 'gray'            
-                    weight: 1,            
-                    opacity: 0.5            
-                }            
-            ).addTo(trajectoryLayer);           
-            
-            // Punts
-            coordinates.forEach(coord => {            
-                L.circleMarker(coord, {            
-                    radius: 4,            
-                    fillColor: "blue",            
-                    color: "blue",            
-                    weight: 1,            
-                    fillOpacity: 0.8            
-                }).addTo(trajectoryLayer);
-            });
-            /*
             const polyline = L.polyline(
                 coordinates,
                 {
@@ -406,7 +385,6 @@
                     weight: 3
                 }
             ).addTo(trajectoryLayer);
-            */
 
             // Últim punt
             const latestCoords =
