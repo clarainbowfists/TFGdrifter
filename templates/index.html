@@ -357,23 +357,13 @@
             const coordinates = [];
 
             data.forEach(point => {
+
                 if (point.lat && point.lon) {
-                    const marker = L.circleMarker(
-                        [point.lat, point.lon],
-                        {
-                            radius: 4,
-                            fillColor: "blue",
-                            color: "blue",
-                            weight: 1,
-                            fillOpacity: 0.8
-                        }
-                    ).addTo(trajectoryLayer);
-                    marker.bindPopup(`
-                        <b>${point.timestamp}</b><br>
-                        Temperature: ${point.temperature} °C<br>
-                        Lat: ${point.lat}<br>
-                        Lon: ${point.lon}
-                    `);
+
+                    coordinates.push([
+                        point.lat,
+                        point.lon
+                    ]);
                 }
             });
 
@@ -388,40 +378,24 @@
                 L.layerGroup().addTo(map);
 
             // Dibuixar trajectòria
-            // Trajectòria fina
-            L.polyline(
+            const polyline = L.polyline(
                 coordinates,
                 {
-                    color: 'gray',
-                    weight: 1,
-                    opacity: 0.5
+                    color: 'blue',
+                    weight: 3
                 }
             ).addTo(trajectoryLayer);
-            // Punts
-            coordinates.forEach(coord => {
-                L.circleMarker(coord, {
-                    radius: 4,
-                    fillColor: "blue",
-                    color: "blue",
-                    weight: 1,
-                    fillOpacity: 0.8
-                }).addTo(trajectoryLayer);
-            });
+
             // Últim punt
             const latestCoords =
                 coordinates[coordinates.length - 1];
 
-            L.circleMarker(latestCoords, {
-                radius: 8,
-                fillColor: "red",
-                color: "red",
-                weight: 2,
-                fillOpacity: 1
-            })
-            .addTo(trajectoryLayer)
-            .bindPopup("Última posició");
+            L.marker(latestCoords)
+                .addTo(trajectoryLayer)
+                .bindPopup("Última posició");
+
             // Ajustar vista
-            map.fitBounds(coordinates);
+            map.fitBounds(polyline.getBounds());
 
         } catch (error) {
 
